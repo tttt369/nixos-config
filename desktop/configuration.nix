@@ -90,7 +90,8 @@
      floorp
      libsForQt5.fcitx5-configtool
      btop
-     noto-fonts-cjk-sans
+     nautilus
+     copyq
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -146,5 +147,12 @@
      fcitx5-gtk
    ];
  };
+
+ fonts = {
+    enableDefaultFonts = true;
+    fonts = with pkgs; [
+      noto-fonts-cjk-sans
+    ];
+  };
 }
 
