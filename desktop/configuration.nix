@@ -90,6 +90,7 @@
      floorp
      libsForQt5.fcitx5-configtool
      btop
+     noto-fonts-cjk
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -145,6 +146,5 @@
      fcitx5-gtk
    ];
  };
-
 }
 
