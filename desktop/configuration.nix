@@ -88,6 +88,7 @@
      wget
      git
      floorp
+     libsForQt5.fcitx5-configtool
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -134,5 +135,15 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+   i18n.inputMethod = {
+   type = "fcitx5";
+   enable = true;
+   fcitx5.addons = with pkgs; [
+     fcitx5-mozc
+     fcitx5-gtk
+   ];
+ };
+
 }
 
