@@ -72,9 +72,8 @@
   };
 
   # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 
-  home-manager.users.asdf = {
-    programs.fish.enable = true;
+  programs = {
+    home-manager.enable = true;
   };
 }
