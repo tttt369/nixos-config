@@ -1,0 +1,29 @@
+
+NeoCodeium: No API key found. Run `:NeoCodeium auth` to set it
+stylua: installing
+stylua: failed to install
+
+Running healthchecks...
+E5009: Invalid $VIMRUNTIME: /nix/store/cmsbdfr6c1wbgzx6f6hl63z31m4mnym3-neovim-unwrapped-0.11.0/share/nvim/runtime
+Error executing lua: function health#rnvimr#check[1]..<SNR>93_check_os, line 1: Vim(call):E117: Unknown function: health#report_start
+stack traceback:
+	[C]: in function 'call'
+	...m-unwrapped-0.11.0/share/nvim/runtime/lua/vim/health.lua:406: in function '_check'
+	[string "<nvim>"]:1: in main chunk
+
+NeoCodeium: No API key found. Run `:NeoCodeium auth` to set it
+
+[telescope] [WARN  02:58:36] /home/asdf/.local/share/nvim/lazy/telescope.nvim/lua/tele...local/share/nvim/lazy/telescope.nvim/lua/telescope/_.lua:298: rg: Executable not found
+[telescope] stack traceback:
+[telescope] ^I...local/share/nvim/lazy/telescope.nvim/lua/telescope/_.lua:298: in function 'convert_opts'
+[telescope] ^I...local/share/nvim/lazy/telescope.nvim/lua/telescope/_.lua:18: in function 'new'
+[telescope] ^I...local/share/nvim/lazy/telescope.nvim/lua/telescope/_.lua:64: in function 'spawn'
+[telescope] ^I...cope.nvim/lua/telescope/finders/async_oneshot_finder.lua:48: in function 'finder'
+[telescope] ^I...share/nvim/lazy/telescope.nvim/lua/telescope/pickers.lua:494: in function <...share/nvim/lazy/telescope.nvim/lua/telescope/pickers.lua:493>
+[telescope] ^I[C]: in function 'pcall'
+[telescope] ^I...share/nvim/lazy/telescope.nvim/lua/telescope/pickers.lua:493: in function <...share/nvim/lazy/telescope.nvim/lua/telescope/pickers.lua:454>recording @qrecording @q
+
+
+E37: No write since last change (add ! to override)
+
+E37: No write since last change (add ! to override)

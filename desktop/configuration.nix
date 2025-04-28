@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-stable, ... }:
 
 {
   imports =
@@ -87,11 +87,19 @@
      neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      wget
      git
+     gh
      floorp
      libsForQt5.fcitx5-configtool
      btop
      nautilus
      copyq
+     fish
+     ranger
+     xclip
+     python3
+     curl
+     unzip
+     ripgrep
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -146,13 +154,15 @@
      fcitx5-mozc
      fcitx5-gtk
    ];
- };
+  };
 
- fonts = {
+  fonts = {
+    packages = with pkgs-stable; [ 
+      nerdfonts 
+    ];
     enableDefaultFonts = true;
     fonts = with pkgs; [
       noto-fonts-cjk-sans
     ];
   };
 }
-
