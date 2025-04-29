@@ -12,14 +12,14 @@
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager }:
     let
-      mkSystem = configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
+      mkSystem = name: configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           configFile
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.asdf = {
+            home-manager.users.name = {
               imports = [ homeFile ];
             };
           }
@@ -33,8 +33,8 @@
     in
     {
       nixosConfigurations = {
-        desktop = mkSystem ./desktop/configuration.nix ./desktop/home.nix;
-        vm = mkSystem ./vm/configuration.nix ./vm/home.nix; # Adjust home.nix as needed
+        desktop = mkSystem asdf ./desktop/configuration.nix ./desktop/home.nix;
+        vm = mkSystem vm ./vm/configuration.nix ./vm/home.nix; # Adjust home.nix as needed
       };
     };
 }
