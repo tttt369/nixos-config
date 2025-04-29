@@ -33,8 +33,8 @@
     in
     {
       nixosConfigurations = {
-        desktop = mkSystem asdf ./desktop/configuration.nix ./desktop/home.nix;
-        vm = mkSystem vm ./vm/configuration.nix ./vm/home.nix; # Adjust home.nix as needed
+        desktop = mkSystem "asdf" ./desktop/configuration.nix ./desktop/home.nix;
+        vm = mkSystem "vm" ./vm/configuration.nix ./vm/home.nix;
       };
     };
 }
