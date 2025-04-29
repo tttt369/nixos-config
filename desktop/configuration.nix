@@ -112,6 +112,7 @@
     procps
     gcc
     nodejs_23
+    lazygit
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
