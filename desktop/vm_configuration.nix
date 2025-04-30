@@ -78,20 +78,14 @@
   # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # Define the vm user
-  users.users.vm = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Allow sudo access
-    # Set a password or use initialPassword for testing
-    initialPassword = "asdf"; # Change this for security
-  };
   users.users.asdf = {
-    isNormalUser = false;
-    extraGroups = [ "wheel" ]; # Allow sudo access
-    # Set a password or use initialPassword for testing
-    initialPassword = "asdf"; # Change this for security
+    isNormalUser = true;
+    hashedPassword = "$6$Ku3vme8wc2vqr9xy$xmf7FO5LD/p6kvIpRc1350FoWs9eRIeF94At3nCIXIuEi/hT3xVOS1WIIY4Tc8TyModUBfR3nM.PZ431CeU/60";
+    extraGroups = [ "wheel" "libvirtd" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+      tree
+    ];
   };
-
 
   # programs.firefox.enable = true;
 
@@ -202,4 +196,11 @@
       VISUAL = "nvim";
     };
   };
+
+
+  programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["asdf"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
 }
