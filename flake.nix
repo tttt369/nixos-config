@@ -35,6 +35,7 @@
       nixosConfigurations = {
         asdf = mkSystem "asdf" ./desktop/configuration.nix ./desktop/home.nix;
         asdf_lap = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
+        lap_test = mkSystem "asdf" ./laptop/test.nix ./laptop/home.nix;
         vm = mkSystem "asdf" ./desktop/vm_configuration.nix  ./desktop/vm.nix;
       };
     };

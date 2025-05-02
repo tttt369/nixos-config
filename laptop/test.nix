@@ -36,21 +36,19 @@
   # };
 
   # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    displayManager = {
-      lightdm.enable = true;
-      defaultSession = "xfce";
-    };
-    desktopManager = {
-      xfce = {
-        enable = true;
-	# enableXfwm = true;
-      };
-    };
-  };
+  # services.xserver = {
+  #   enable = true;
+  #   displayManager = {
+  #     lightdm.enable = true;
+  #     defaultSession = "xfce";
+  #   };
+  #   desktopManager = {
+  #     xfce = {
+  #       enable = true;
+  #     };
+  #   };
+  # };
 
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -62,10 +60,10 @@
   # Enable sound.
   # hardware.pulseaudio.enable = true;
   # OR
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  # };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -156,24 +154,24 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-   i18n.inputMethod = {
-   type = "fcitx5";
-   enable = true;
-   fcitx5.addons = with pkgs; [
-     fcitx5-mozc
-     fcitx5-gtk
-   ];
-  };
-
-  fonts = {
-    packages = with pkgs-stable; [ 
-      nerdfonts 
-    ];
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
-      noto-fonts-cjk-sans
-    ];
-  };
+  #  i18n.inputMethod = {
+  #  type = "fcitx5";
+  #  enable = true;
+  #  fcitx5.addons = with pkgs; [
+  #    fcitx5-mozc
+  #    fcitx5-gtk
+  #  ];
+  # };
+  #
+  # fonts = {
+  #   packages = with pkgs-stable; [ 
+  #     nerdfonts 
+  #   ];
+  #   enableDefaultFonts = true;
+  #   fonts = with pkgs; [
+  #     noto-fonts-cjk-sans
+  #   ];
+  # };
 
   programs.bash = {
   interactiveShellInit = ''
@@ -196,5 +194,5 @@
   services.tlp.enable = true;
 
   boot.kernelParams = [ "acpi_backlight=native" ];
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }
