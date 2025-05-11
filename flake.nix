@@ -37,6 +37,7 @@
         asdf_lap = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
         lap_test = mkSystem "asdf" ./laptop/test.nix ./laptop/home.nix;
         vm = mkSystem "asdf" ./desktop/vm_configuration.nix  ./desktop/vm.nix;
+        game = mkSystem "asdf" ./desktop/game.nix ./desktop/home.nix;
       };
     };
 }

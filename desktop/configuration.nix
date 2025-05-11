@@ -80,7 +80,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.asdf = {
     isNormalUser = true;
-    hashedPassword = "$6$BYd.tv.bFbgW5VpF$vIuFPKTJRh7Ia5ST1lzE8INY81azBmuZuxBGtIS1tI8/QBSw1C/95ruig7qUTkWoAgLhqcRKXYqq/aYTgCU.p.";
+    hashedPassword = "$6$0glQ7pISNVj0coW4$j6QmZ/igdiACru2YuIqmYfYw2QLYy31EFuzNSwBbJFrZVsOR1cVSV4wo/fRJgA.86uzTXeDSID/rbQ2vuT6Hz.";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
@@ -212,6 +212,20 @@
     openFirewall = true;
     
   };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "steam"
+      "steam-original"
+      "steam-unwrapped"
+      "steam-run"
+    ];
 
 
   networking.firewall.checkReversePath = false;
