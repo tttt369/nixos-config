@@ -25,7 +25,7 @@
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -80,7 +80,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.asdf = {
     isNormalUser = true;
-    hashedPassword = "$6$Ku3vme8wc2vqr9xy$xmf7FO5LD/p6kvIpRc1350FoWs9eRIeF94At3nCIXIuEi/hT3xVOS1WIIY4Tc8TyModUBfR3nM.PZ431CeU/60";
+    hashedPassword = "$6$BYd.tv.bFbgW5VpF$vIuFPKTJRh7Ia5ST1lzE8INY81azBmuZuxBGtIS1tI8/QBSw1C/95ruig7qUTkWoAgLhqcRKXYqq/aYTgCU.p.";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
@@ -104,7 +104,9 @@
     fish
     ranger
     xclip
-    python3
+    python313
+    python313Packages.pip
+    python313Packages.virtualenv
     curl
     unzip
     ripgrep
@@ -113,6 +115,12 @@
     gcc
     nodejs_23
     lazygit
+    playerctl
+    emacs
+    protonvpn-gui
+    kitty
+    anki-bin
+    xarchiver
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -195,5 +203,16 @@
       SYSTEMD_EDITOR = "nvim";
       VISUAL = "nvim";
     };
+
   };
+    services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+    
+  };
+
+
+  networking.firewall.checkReversePath = false;
 }
