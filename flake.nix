@@ -4,13 +4,14 @@
   inputs = {
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager }:
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager, nix-flatpak }:
     let
       mkSystem = name: configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
@@ -19,9 +20,11 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${name} = {
-              imports = [ homeFile ];
-            };
+            home-manager.users.${name}.imports = [
+              flatpaks.homeManagerModules.nix-flatpak
+              ./flatpak.nix
+              homeFile
+            ];
           }
         ];
         specialArgs = {
@@ -33,12 +36,12 @@
     in
     {
       nixosConfigurations = {
-        asdf = mkSystem "asdf" ./desktop/configuration.nix ./desktop/home.nix;
-        asdf_lap = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
+        asdf = mkSystem "asdf" ./desktop/config/configuration.nix ./desktop/home/home.nix;
+        lap_asdf = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
         lap_test = mkSystem "asdf" ./laptop/test.nix ./laptop/home.nix;
-        vm = mkSystem "asdf" ./desktop/vm_configuration.nix  ./desktop/vm.nix;
-        game = mkSystem "asdf" ./desktop/game.nix ./desktop/home.nix;
-        ssh = mkSystem "asdf" ./desktop/ssh.nix ./desktop/home.nix;
+        vm = mkSystem "asdf" ./desktop/config/vm.nix  ./desktop/home/vm.nix;
+        game = mkSystem "asdf" ./desktop/config/game.nix ./desktop/home/game.nix;
+        ssh = mkSystem "asdf" ./desktop/config/ssh.nix ./desktop/home/home.nix;
       };
     };
 }
