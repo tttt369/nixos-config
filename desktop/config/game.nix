@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ../hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -83,8 +83,6 @@
     hashedPassword = "$6$XalKkpsZPbCibgY4$QSqYcKZFUrrCX.nwY7Nd7beT0mCbZ.SPEqWRbUQZXt1wzCMydR.g21zofT1ZNm1AE.y2WzLHg4LjjrDbkbHN40";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      flatpak
-      gnome-software
       tree
     ];
   };
@@ -93,7 +91,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-   environment.systemPackages = with pkgs; [
+environment.systemPackages = with pkgs; [
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
@@ -128,7 +126,14 @@
     gwe
     mangohud
     protonup
-   ];
+    qdirstat
+    lutris
+    wineWowPackages.stable
+    jdk
+    winetricks
+    openvpn
+    go_1_23
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -307,13 +312,27 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
 
-  fileSystems."/mnt" = {
+  fileSystems."/run/media/asdf/49538b9d-fe29-460b-a955-6edece14ec80" = {
     device = "UUID=49538b9d-fe29-460b-a955-6edece14ec80";
     fsType = "ext4";
     options = [ "defaults" ];
   };
 
-  services.flatpak.package = [
-    "flathub:com.usebottles.bottles"
-  ];
+
+  xdg.portal = {
+    enable = true;
+    config = {
+      common = {
+        default = [
+          "gtk"
+        ];
+      };
+    };
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+  };
+  
+  # install flatpak binary
+  services.flatpak.enable = true;
 }

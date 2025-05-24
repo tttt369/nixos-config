@@ -90,6 +90,9 @@
   services.flatpak.packages = [
     #{ appId = "com.brave.Browser"; origin = "flathub"; }
     "com.usebottles.bottles"
+    "com.github.tchx84.Flatseal"
+    "net.lutris.Lutris"
+    "org.winehq.Wine"
     #"im.riot.Riot"
   ];
 }

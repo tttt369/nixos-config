@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ../hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -81,7 +81,7 @@
   users.users.asdf = {
     isNormalUser = true;
     hashedPassword = "$6$0glQ7pISNVj0coW4$j6QmZ/igdiACru2YuIqmYfYw2QLYy31EFuzNSwBbJFrZVsOR1cVSV4wo/fRJgA.86uzTXeDSID/rbQ2vuT6Hz.";
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "adbusers" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -91,7 +91,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-   environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
@@ -104,6 +104,8 @@
     fish
     ranger
     xclip
+    python311
+    python311Packages.pip
     python313
     python313Packages.pip
     python313Packages.virtualenv
@@ -121,7 +123,11 @@
     kitty
     anki-bin
     xarchiver
-   ];
+    krita
+    android-studio
+    jdk
+    kotlin
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -212,6 +218,11 @@
     openFirewall = true;
     
   };
+  programs.adb.enable = true;
 
   networking.firewall.checkReversePath = false;
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "android-studio-stable"
+    ];
 }

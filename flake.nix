@@ -22,7 +22,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.${name}.imports = [
               nix-flatpak.homeManagerModules.nix-flatpak
-              ./flatpak.nix
               homeFile
             ];
           }
