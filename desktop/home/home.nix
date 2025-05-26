@@ -20,7 +20,7 @@
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    # pkgs.hello
+    pkgs.hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -76,4 +76,18 @@
   programs = {
     home-manager.enable = true;
   };
+
+  # Set the default keyboard layout
+  # home.keyboard.layout = "us";
+  #
+  # i18n.inputMethod.fcitx5.settings.inputMethod = {
+  #   GroupOrder."0" = "Default";
+  #   "Groups/0" = {
+  #     Name = "Default";
+  #     "Default Layout" = "us";
+  #     DefaultIM = "pinyin";
+  #   };
+  #   "Groups/0/Items/0".Name = "keyboard-us";
+  #   "Groups/0/Items/1".Name = "pinyin";
+  # };
 }
