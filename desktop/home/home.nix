@@ -91,7 +91,7 @@
   };
 
   xdg.configFile.xfce4 = {
-    source = ./xfce4/;
+    source = ./xfce4;
     target = "xfce4";
     recursive = true;
     enable = true;
