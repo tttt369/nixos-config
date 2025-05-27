@@ -92,7 +92,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    # neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
     gh
@@ -174,23 +174,39 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-   i18n.inputMethod = {
-   type = "fcitx5";
-   enable = true;
-   fcitx5.addons = with pkgs; [
-     fcitx5-mozc
-     fcitx5-gtk
-   ];
+  i18n.inputMethod = {
+    type = "fcitx5";
+    enable = true;
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+    ];
+    fcitx5.settings.inputMethod = {
+      GroupOrder."0" = "Default";
+      "Groups/0" = {
+         Name = "Default";
+         "Default Layout" = "us";
+         DefaultIM = "mozc";
+      };
+      "Groups/0/Items/0".Name = "keyboard-us";
+      "Groups/0/Items/1".Name = "mozc";
+    };
+
+    fcitx5.settings.globalOptions = {
+      "Hotkey/TriggerKeys" = {
+          "0" = "grave";
+          "1" = "Zenkaku_Hankaku";
+          "2" = "Hangul";
+      };
+    };
   };
 
   fonts = {
-    packages = with pkgs-stable; [ 
-      nerdfonts 
-    ];
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
-      noto-fonts-cjk-sans
-    ];
+  enableDefaultFonts = true;
+  fonts = with pkgs; [
+    noto-fonts-cjk-sans
+    nerd-fonts.jetbrains-mono
+  ];
   };
 
   programs.bash = {
@@ -203,14 +219,14 @@
   '';
   };
 
-  environment = {
-    variables = {
-      EDITOR = "nvim";
-      SYSTEMD_EDITOR = "nvim";
-      VISUAL = "nvim";
-    };
+  # environment = {
+  #   variables = {
+  #     EDITOR = "nvim";
+  #     SYSTEMD_EDITOR = "nvim";
+  #     VISUAL = "nvim";
+  #   };
+  # };
 
-  };
     services.sunshine = {
     enable = true;
     autoStart = true;

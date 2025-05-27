@@ -1,5 +1,10 @@
 { lib, config, pkgs, ... }:
 
+# let
+#   createSymlink = localPath:
+#     config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/nixos-config/desktop/home/${localPath}";
+# #   nvimPath = "${config.home.homeDirectory}/nixos-config/home/nvim";
+# in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -77,17 +82,55 @@
     home-manager.enable = true;
   };
 
-  # Set the default keyboard layout
-  # home.keyboard.layout = "us";
-  #
-  # i18n.inputMethod.fcitx5.settings.inputMethod = {
-  #   GroupOrder."0" = "Default";
-  #   "Groups/0" = {
-  #     Name = "Default";
-  #     "Default Layout" = "us";
-  #     DefaultIM = "pinyin";
-  #   };
-  #   "Groups/0/Items/0".Name = "keyboard-us";
-  #   "Groups/0/Items/1".Name = "pinyin";
+  # "./nvim".source = config.lib.file.mkOutOfStoreSymlink ./nvim;
+
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    defaultEditor = true;
+  };
+
+  # xdg.configFile.nvim = {
+  #   source = ./nvim;
+  #   target = "nvim";
+  #   recursive = true;
+  #   enable = true;
   # };
+
+  # home.file."nvim" = {
+  #    source = "${config.xdg.configHome}/nixos-config/desktop/home/nvim";
+  #    recursive = true;
+  #    outOfStoreSymlink = true;
+  # };
+
+  home.activation.nvim = lib.mkAfter ''
+    rm -rf $HOME/.config/nvim
+    ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
+  '';
+  home.activation.xfce4 = lib.mkAfter ''
+    rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+    ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+  '';
+  # xfconf.settings = {
+  #   xfce4-desktop = {
+  #     "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
+  #       "${pkgs.nixos-artwork.wallpapers.stripes-logo.gnomeFilePath}";
+  #   };
+  # };
+  xdg.desktopEntries = {
+    nvim = {
+      name = "neovim";
+      genericName = "Text Editor";
+      comment = "Edit text files";
+      exec = "nvim %f";
+      terminal = true;
+      type = "Application";
+      settings = {
+        Keywords = "Text;editor";
+      };
+      icon="nvim";
+      categories = [ "Application" "Network" "WebBrowser" ];
+      mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
+    };
+  };
 }
