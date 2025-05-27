@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, local-path, ... }:
 
 # let
 #   createSymlink = localPath:
@@ -111,12 +111,12 @@
     rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
     ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
   '';
-  # xfconf.settings = {
-  #   xfce4-desktop = {
-  #     "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
-  #       "${pkgs.nixos-artwork.wallpapers.stripes-logo.gnomeFilePath}";
-  #   };
-  # };
+  xfconf.settings = {
+    xfce4-desktop = {
+      "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
+        "${local-path}/desktop/home/xfce-perchannel-xml/0f6oxa9y9jlb1.png";
+    };
+  };
   xdg.desktopEntries = {
     nvim = {
       name = "neovim";
