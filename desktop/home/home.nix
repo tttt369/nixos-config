@@ -82,35 +82,32 @@
     home-manager.enable = true;
   };
 
-  # "./nvim".source = config.lib.file.mkOutOfStoreSymlink ./nvim;
-
   programs.neovim = {
     enable = true;
     viAlias = true;
     defaultEditor = true;
   };
 
-  # xdg.configFile.nvim = {
-  #   source = ./nvim;
-  #   target = "nvim";
-  #   recursive = true;
-  #   enable = true;
-  # };
+  xdg.configFile.nvim = {
+    source = ./nvim;
+    target = "nvim";
+    recursive = true;
+    enable = true;
+  };
 
-  # home.file."nvim" = {
-  #    source = "${config.xdg.configHome}/nixos-config/desktop/home/nvim";
-  #    recursive = true;
-  #    outOfStoreSymlink = true;
+  # home.file = {
+  #   ".config/nvim" = {
+  #     source = config.lib.file.mkOutOfStoreSymlink "${local-path}/desktop/home/nvim";
+  #   };
   # };
-
-  home.activation.nvim = lib.mkAfter ''
-    rm -rf $HOME/.config/nvim
-    ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
-  '';
-  home.activation.xfce4 = lib.mkAfter ''
-    rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-    ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-  '';
+  # home.activation.nvim = lib.mkAfter ''
+  #   rm -rf $HOME/.config/nvim
+  #   ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
+  # '';
+  # home.activation.xfce4 = lib.mkAfter ''
+  #   rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+  #   ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+  # '';
   xfconf.settings = {
     xfce4-desktop = {
       "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =

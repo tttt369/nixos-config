@@ -13,6 +13,7 @@
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager, nix-flatpak }:
     let
+      flakeRoot = "/home/asdf/nixos-config"; # Explicitly set the Flake's root directory
       mkSystem = name: configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -20,17 +21,25 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${name}.imports = [
-              nix-flatpak.homeManagerModules.nix-flatpak
-              homeFile
-            ];
+            home-manager.extraSpecialArgs = {
+              local-path = flakeRoot;
+              pkgs-stable = import nixpkgs-stable {
+                system = "x86_64-linux";
+              };
+            };
+            home-manager.users.${name} = {
+              imports = [
+                nix-flatpak.homeManagerModules.nix-flatpak
+                homeFile
+              ];
+            };
           }
         ];
         specialArgs = {
           pkgs-stable = import nixpkgs-stable {
             system = "x86_64-linux";
           };
-          local-path = self.outPath;
+          local-path = flakeRoot;
         };
       };
     in
@@ -39,7 +48,7 @@
         asdf = mkSystem "asdf" ./desktop/config/configuration.nix ./desktop/home/home.nix;
         lap_asdf = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
         lap_test = mkSystem "asdf" ./laptop/test.nix ./laptop/home.nix;
-        vm = mkSystem "asdf" ./desktop/config/vm.nix  ./desktop/home/vm.nix;
+        vm = mkSystem "asdf" ./desktop/config/vm.nix ./desktop/home/vm.nix;
         game = mkSystem "asdf" ./desktop/config/game.nix ./desktop/home/game.nix;
         ssh = mkSystem "asdf" ./desktop/config/ssh.nix ./desktop/home/home.nix;
       };
