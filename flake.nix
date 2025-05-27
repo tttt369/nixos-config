@@ -21,12 +21,6 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              local-path = flakeRoot;
-              pkgs-stable = import nixpkgs-stable {
-                system = "x86_64-linux";
-              };
-            };
             home-manager.users.${name} = {
               imports = [
                 nix-flatpak.homeManagerModules.nix-flatpak
@@ -39,7 +33,6 @@
           pkgs-stable = import nixpkgs-stable {
             system = "x86_64-linux";
           };
-          local-path = flakeRoot;
         };
       };
     in

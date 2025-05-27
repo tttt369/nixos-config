@@ -1,10 +1,5 @@
-{ lib, config, pkgs, local-path, ... }:
+{ lib, config, pkgs, ... }:
 
-# let
-#   createSymlink = localPath:
-#     config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/nixos-config/desktop/home/${localPath}";
-# #   nvimPath = "${config.home.homeDirectory}/nixos-config/home/nvim";
-# in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -95,11 +90,13 @@
     enable = true;
   };
 
-  # home.file = {
-  #   ".config/nvim" = {
-  #     source = config.lib.file.mkOutOfStoreSymlink "${local-path}/desktop/home/nvim";
-  #   };
-  # };
+  xdg.configFile.xfce4 = {
+    source = ./xfce4/;
+    target = "xfce4";
+    recursive = true;
+    enable = true;
+  };
+
   # home.activation.nvim = lib.mkAfter ''
   #   rm -rf $HOME/.config/nvim
   #   ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
@@ -108,12 +105,14 @@
   #   rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
   #   ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
   # '';
+
   xfconf.settings = {
     xfce4-desktop = {
       "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
-        "${local-path}/desktop/home/xfce-perchannel-xml/0f6oxa9y9jlb1.png";
+        "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.gnomeFilePath}";
     };
   };
+
   xdg.desktopEntries = {
     nvim = {
       name = "neovim";
