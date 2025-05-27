@@ -14,8 +14,7 @@
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager, nix-flatpak }:
     let
       mkSystem = name: configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
-        flakeRoot = self;
-        _ = builtins.trace "flakeRoot: ${flakeRoot}" null;
+        _ = builtins.trace "flakeRoot: ${self}" null;
         system = "x86_64-linux";
         modules = [
           configFile
