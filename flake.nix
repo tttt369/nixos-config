@@ -22,6 +22,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${name} = {
+              home-manager.backupFileExtension = "backup";
               imports = [
                 nix-flatpak.homeManagerModules.nix-flatpak
                 homeFile
