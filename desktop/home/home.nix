@@ -77,11 +77,7 @@
     home-manager.enable = true;
   };
 
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    defaultEditor = true;
-  };
+  services.copyq.enable = true;
 
   xdg.configFile.nvim = {
     source = ./nvim;
@@ -93,6 +89,20 @@
   xdg.configFile.xfce4 = {
     source = ./xfce4;
     target = "xfce4";
+    recursive = true;
+    enable = true;
+  };
+
+  xdg.configFile.fish = {
+    source = ./fish;
+    target = "fish";
+    recursive = true;
+    enable = true;
+  };
+
+  xdg.configFile.copyq = {
+    source = ./copyq;
+    target = "copyq";
     recursive = true;
     enable = true;
   };
@@ -125,7 +135,7 @@
         Keywords = "Text;editor";
       };
       icon="nvim";
-      categories = [ "Application" "Network" "WebBrowser" ];
+      categories = [ "Utility" "TextEditor" ];
       mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
     };
   };

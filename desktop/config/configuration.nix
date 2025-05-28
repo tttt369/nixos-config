@@ -100,7 +100,6 @@
     libsForQt5.fcitx5-configtool
     btop
     nautilus
-    copyq
     fish
     ranger
     xclip
@@ -217,6 +216,11 @@
       exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
     fi
   '';
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   # environment = {
