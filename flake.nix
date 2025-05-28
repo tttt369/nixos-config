@@ -21,8 +21,8 @@
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.${name} = {
-              home-manager.backupFileExtension = "backup";
               imports = [
                 nix-flatpak.homeManagerModules.nix-flatpak
                 homeFile

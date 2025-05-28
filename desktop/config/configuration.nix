@@ -245,4 +245,6 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "android-studio-stable"
     ];
+
+  environment.sessionVariables.DEFAULT_BROWSER = "${pkgs.floorp}/bin/floorp";
 }
