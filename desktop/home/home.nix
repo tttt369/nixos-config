@@ -107,6 +107,13 @@
     enable = true;
   };
 
+  xdg.configFile.mozc = {
+    source = ./mozc;
+    target = "mozc";
+    recursive = true;
+    enable = true;
+  };
+
   # home.activation.nvim = lib.mkAfter ''
   #   rm -rf $HOME/.config/nvim
   #   ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
