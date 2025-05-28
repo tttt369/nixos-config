@@ -8,6 +8,17 @@ let
   fishExists = builtins.pathExists "${config.xdg.configHome}/fish";
 in
 {
+  # xdg.configFile.nvim = {
+  #   source = ./nvim;
+  #   target = "nvim";
+  #   recursive = true;
+  #   enable = true;
+  # };
+  # home.activation.xfce4 = lib.mkAfter ''
+  #   rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+  #   ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
+  # '';
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "asdf";
@@ -27,7 +38,6 @@ in
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    pkgs.hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -89,98 +99,46 @@ in
 
   xdg.configFile = {
     nvim = lib.mkIf (!nvimExists) {
-      source = ./nvim;
+      source = ./dots/nvim;
       target = "nvim";
       recursive = true;
       enable = true;
       force = true;
     };
     mozc = lib.mkIf (!mozcExists) {
-      source = ./mozc;
+      source = ./dots/mozc;
       target = "mozc";
       recursive = true;
       enable = true;
       force = true;
     };
     xfce4 = lib.mkIf (!xfce4Exists) {
-      source = ./xfce4;
+      source = ./dots/xfce4;
       target = "xfce4";
       recursive = true;
       enable = true;
       force = true;
     };
     copyq = lib.mkIf (!copyqExists) {
-      source = ./copyq;
+      source = ./dots/copyq;
       target = "copyq";
       recursive = true;
       enable = true;
       force = true;
     };
     fish = lib.mkIf (!fishExists) {
-      source = ./fish;
+      source = ./dots/fish;
       target = "fish";
       recursive = true;
       enable = true;
       force = true;
     };
   };
-  # xdg.configFile.nvim = {
-  #   source = ./nvim;
-  #   target = "nvim";
-  #   recursive = true;
-  #   enable = true;
-  # };
-  # xdg.configFile.xfce4 = {
-  #   source = ./xfce4;
-  #   target = "xfce4";
-  #   recursive = true;
-  #   enable = true;
-  # };
-  #
-  # xdg.configFile.fish = {
-  #   source = ./fish;
-  #   target = "fish";
-  #   recursive = true;
-  #   enable = true;
-  # };
-  #
-  # xdg.configFile.copyq = {
-  #   source = ./copyq;
-  #   target = "copyq";
-  #   recursive = true;
-  #   enable = true;
-  # };
-  #
-  # xdg.configFile.mozc = {
-  #   source = ./mozc;
-  #   target = "mozc";
-  #   recursive = true;
-  #   enable = true;
-  # };
-
-  # home.activation.nvim = lib.mkAfter ''
-  #   rm -rf $HOME/.config/nvim
-  #   ln -sfT $HOME/nixos-config/desktop/home/nvim $HOME/.config/nvim
-  # '';
-  # home.activation.xfce4 = lib.mkAfter ''
-  #   rm -rf $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-  #   ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
-  # '';
-
-  # home.activation.xfce4 = lib.mkAfter ''
-  #   wget -O ${config.xdg.configHome}/anime-nix.png  https://preview.redd.it/anime-nix-wallpaper-i-created-v0-0f6oxa9y9jlb1.png?width=1080&crop=smart&auto=webp&s=f9691c21e255b83cabbe080de6df646b54779acb
-  # '';
-
-  xdg.configFile."anime-nix.png" = {
-    source = ./anime-nix.png;
-    target = "anime-nix.png";
-    enable = true;
-  };
 
   xfconf.settings = {
     xfce4-desktop = {
       "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
-        "${config.xdg.configHome}/anime-nix.png";
+        "${config.xdg.configHome}/xfce4/xfconf/xfce-perchannel-xml/0f6oxa9y9jlb1.png";
     };
   };
 
@@ -198,6 +156,31 @@ in
       icon="nvim";
       categories = [ "Utility" "TextEditor" ];
       mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
+    };
+  };
+
+  # Add a new remote. Keep the default one (flathub)
+  # services.flatpak.remotes = lib.mkOptionDefault [{
+  #   name = "flathub-beta";
+  #   location = "https://flathub.org/beta-repo/flathub-beta.flatpakrepo";
+  # }];
+  # services.flatpak.update.auto.enable = false;
+  # services.flatpak.uninstallUnmanaged = false;
+  #
+  # # Add here the flatpaks you want to install
+  # services.flatpak.packages = [
+  #   #{ appId = "com.brave.Browser"; origin = "flathub"; }
+  #   "com.usebottles.bottles"
+  #   "com.github.tchx84.Flatseal"
+  #   "net.lutris.Lutris"
+  #   "org.winehq.Wine"
+  #   #"im.riot.Riot"
+  # ];
+
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
     };
   };
 }

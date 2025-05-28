@@ -38,7 +38,6 @@ in
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    pkgs.hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -159,22 +158,23 @@ in
       mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
     };
   };
+
   # Add a new remote. Keep the default one (flathub)
-  services.flatpak.remotes = lib.mkOptionDefault [{
-    name = "flathub-beta";
-    location = "https://flathub.org/beta-repo/flathub-beta.flatpakrepo";
-  }];
+  # services.flatpak.remotes = lib.mkOptionDefault [{
+  #   name = "flathub-beta";
+  #   location = "https://flathub.org/beta-repo/flathub-beta.flatpakrepo";
+  # }];
+  # services.flatpak.update.auto.enable = false;
+  # services.flatpak.uninstallUnmanaged = false;
+  #
+  # # Add here the flatpaks you want to install
+  # services.flatpak.packages = [
+  #   #{ appId = "com.brave.Browser"; origin = "flathub"; }
+  #   "com.usebottles.bottles"
+  #   "com.github.tchx84.Flatseal"
+  #   "net.lutris.Lutris"
+  #   "org.winehq.Wine"
+  #   #"im.riot.Riot"
+  # ];
 
-  services.flatpak.update.auto.enable = false;
-  services.flatpak.uninstallUnmanaged = false;
-
-  # Add here the flatpaks you want to install
-  services.flatpak.packages = [
-    #{ appId = "com.brave.Browser"; origin = "flathub"; }
-    "com.usebottles.bottles"
-    "com.github.tchx84.Flatseal"
-    "net.lutris.Lutris"
-    "org.winehq.Wine"
-    #"im.riot.Riot"
-  ];
 }

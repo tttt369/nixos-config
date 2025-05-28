@@ -7,14 +7,21 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ../hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.loader.grub.devices = [ "nodev" ];
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -74,7 +81,7 @@
   users.users.asdf = {
     isNormalUser = true;
     hashedPassword = "$6$0glQ7pISNVj0coW4$j6QmZ/igdiACru2YuIqmYfYw2QLYy31EFuzNSwBbJFrZVsOR1cVSV4wo/fRJgA.86uzTXeDSID/rbQ2vuT6Hz.";
-    extraGroups = [ "wheel" "adbusers" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "adbusers" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -95,38 +102,14 @@
     fish
     ranger
     xclip
-    python311
-    python311Packages.pip
-    python313
-    python313Packages.pip
-    python313Packages.virtualenv
+    python3
+    python3Packages.pip
+    python3Packages.virtualenv
     curl
     unzip
     ripgrep
     home-manager
-    procps
     gcc
-    nodejs_23
-    lazygit
-    playerctl
-    emacs
-    protonvpn-gui
-    anki-bin
-    krita
-    android-studio
-    jdk
-    kotlin
-    qdirstat
-    efibootmgr
-    gparted
-    gwe
-    mangohud
-    protonup
-    go_1_23
-    openvpn
-    powertop
-    upower
-    brightnessctl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -223,46 +206,4 @@
     enable = true;
     defaultEditor = true;
   };
-
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;
-  };
-
-  programs.adb.enable = true;
-  networking.firewall.checkReversePath = false;
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-original"
-    "steam-unwrapped"
-    "steam-run"
-    "nvidia-x11"
-    "nvidia-settings"
-    "nvidia-persistenced"
-    "android-studio-stable"
-    ];
-
-  xdg.portal = {
-    enable = true;
-    config = {
-      common = {
-        default = [
-          "gtk"
-        ];
-      };
-    };
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-    ];
-  };
-  
-  # install flatpak binary
-  services.flatpak.enable = true;
-
-  services.tlp.enable = true;
-  boot.kernelParams = [ "acpi_backlight=native" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 }

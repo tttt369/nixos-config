@@ -13,7 +13,6 @@
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, home-manager, nix-flatpak }:
     let
-      flakeRoot = "/home/asdf/nixos-config"; # Explicitly set the Flake's root directory
       mkSystem = name: configFile: homeFile: nixpkgs-unstable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -38,12 +37,8 @@
     in
     {
       nixosConfigurations = {
-        asdf = mkSystem "asdf" ./desktop/config/configuration.nix ./desktop/home/home.nix;
-        lap_asdf = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
-        lap_test = mkSystem "asdf" ./laptop/test.nix ./laptop/home.nix;
-        vm = mkSystem "asdf" ./desktop/config/vm.nix ./desktop/home/vm.nix;
-        game = mkSystem "asdf" ./desktop/config/game.nix ./desktop/home/game.nix;
-        ssh = mkSystem "asdf" ./desktop/config/ssh.nix ./desktop/home/home.nix;
+        desktop = mkSystem "asdf" ./desktop/configuration.nix ./desktop/home.nix;
+        laptop = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
       };
     };
 }

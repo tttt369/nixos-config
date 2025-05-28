@@ -7,28 +7,20 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ../hardware-configuration.nix
+      ./hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.useOSProber = true;
-  boot.loader.grub.efiSupport = true;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot";
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "Asia/Tokyo";
+  # time.timeZone = "Europe/Amsterdam";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -80,8 +72,8 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.asdf = {
     isNormalUser = true;
-    hashedPassword = "$6$0glQ7pISNVj0coW4$j6QmZ/igdiACru2YuIqmYfYw2QLYy31EFuzNSwBbJFrZVsOR1cVSV4wo/fRJgA.86uzTXeDSID/rbQ2vuT6Hz.";
-    extraGroups = [ "wheel" "adbusers" ]; # Enable ‘sudo’ for the user.
+    hashedPassword = "$6$Ku3vme8wc2vqr9xy$xmf7FO5LD/p6kvIpRc1350FoWs9eRIeF94At3nCIXIuEi/hT3xVOS1WIIY4Tc8TyModUBfR3nM.PZ431CeU/60";
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -91,8 +83,8 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+   environment.systemPackages = with pkgs; [
+    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
     gh
@@ -100,33 +92,16 @@
     libsForQt5.fcitx5-configtool
     btop
     nautilus
+    copyq
     fish
     ranger
     xclip
-    python311
-    python311Packages.pip
-    python313
-    python313Packages.pip
-    python313Packages.virtualenv
+    python3
     curl
     unzip
     ripgrep
     home-manager
-    procps
-    gcc
-    nodejs_23
-    lazygit
-    playerctl
-    emacs
-    protonvpn-gui
-    kitty
-    anki-bin
-    xarchiver
-    krita
-    android-studio
-    jdk
-    kotlin
-  ];
+   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -173,78 +148,22 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  i18n.inputMethod = {
-    type = "fcitx5";
-    enable = true;
-    fcitx5.addons = with pkgs; [
-      fcitx5-mozc
-      fcitx5-gtk
-    ];
-    fcitx5.settings.inputMethod = {
-      GroupOrder."0" = "Default";
-      "Groups/0" = {
-         Name = "Default";
-         "Default Layout" = "us";
-         DefaultIM = "mozc";
-      };
-      "Groups/0/Items/0".Name = "keyboard-us";
-      "Groups/0/Items/1".Name = "mozc";
-    };
-
-    fcitx5.settings.globalOptions = {
-      "Hotkey/TriggerKeys" = {
-          "0" = "grave";
-          "1" = "Zenkaku_Hankaku";
-          "2" = "Hangul";
-      };
-    };
+   i18n.inputMethod = {
+   type = "fcitx5";
+   enable = true;
+   fcitx5.addons = with pkgs; [
+     fcitx5-mozc
+     fcitx5-gtk
+   ];
   };
 
   fonts = {
-  enableDefaultFonts = true;
-  fonts = with pkgs; [
-    noto-fonts-cjk-sans
-    nerd-fonts.jetbrains-mono
-  ];
-  };
-
-  programs.bash = {
-  interactiveShellInit = ''
-    if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-    then
-      shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-      exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
-    fi
-  '';
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  # environment = {
-  #   variables = {
-  #     EDITOR = "nvim";
-  #     SYSTEMD_EDITOR = "nvim";
-  #     VISUAL = "nvim";
-  #   };
-  # };
-
-    services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;
-    
-  };
-  programs.adb.enable = true;
-
-  networking.firewall.checkReversePath = false;
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "android-studio-stable"
+    packages = with pkgs-stable; [ 
+      nerdfonts 
     ];
-
-  environment.sessionVariables.DEFAULT_BROWSER = "${pkgs.floorp}/bin/floorp";
+    enableDefaultFonts = true;
+    fonts = with pkgs; [
+      noto-fonts-cjk-sans
+    ];
+  };
 }

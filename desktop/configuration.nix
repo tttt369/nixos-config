@@ -14,7 +14,14 @@
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.loader.grub.devices = [ "nodev" ];
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -74,7 +81,7 @@
   users.users.asdf = {
     isNormalUser = true;
     hashedPassword = "$6$0glQ7pISNVj0coW4$j6QmZ/igdiACru2YuIqmYfYw2QLYy31EFuzNSwBbJFrZVsOR1cVSV4wo/fRJgA.86uzTXeDSID/rbQ2vuT6Hz.";
-    extraGroups = [ "wheel" "adbusers" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "adbusers" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       tree
     ];
@@ -124,9 +131,6 @@
     protonup
     go_1_23
     openvpn
-    powertop
-    upower
-    brightnessctl
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -231,7 +235,9 @@
     openFirewall = true;
   };
 
+
   programs.adb.enable = true;
+
   networking.firewall.checkReversePath = false;
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -244,6 +250,89 @@
     "nvidia-persistenced"
     "android-studio-stable"
     ];
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    gamescopeSession.enable = true;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = ["nvidia"];
+
+  hardware.nvidia = {
+
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # of just the bare essentials.
+    powerManagement.enable = false;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    open = true;
+
+    # Enable the Nvidia settings menu,
+	# accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    # package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  systemd.timers."nvidia-tdp" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5";
+      Unit = "nvidia-tdp.service";
+    };
+  };
+
+  systemd.services."nvidia-tdp" = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStartPre = "/run/current-system/sw/bin/nvidia-smi -pm 1";
+      ExecStart = "/run/current-system/sw/bin/nvidia-smi -pl 100";
+    };
+    description = "Set NVIDIA power limit";
+  };
+
+  environment.sessionVariables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+      "\${HOME}/.steam/root/compatibilitytools.d";
+  };
+
+  programs.gamemode.enable = true;
+  powerManagement.cpuFreqGovernor = "performance";
+  networking.firewall.checkReversePath = false;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+
+  fileSystems."/run/media/asdf/49538b9d-fe29-460b-a955-6edece14ec80" = {
+    device = "UUID=49538b9d-fe29-460b-a955-6edece14ec80";
+    fsType = "ext4";
+    options = [ "defaults" ];
+  };
+
 
   xdg.portal = {
     enable = true;
@@ -260,9 +349,10 @@
   };
   
   # install flatpak binary
-  services.flatpak.enable = true;
+  # services.flatpak.enable = true;
 
-  services.tlp.enable = true;
-  boot.kernelParams = [ "acpi_backlight=native" ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["asdf"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 }
