@@ -93,34 +93,35 @@ in
       target = "nvim";
       recursive = true;
       enable = true;
+      force = true;
     };
-
     mozc = lib.mkIf (!mozcExists) {
       source = ./mozc;
       target = "mozc";
       recursive = true;
       enable = true;
+      force = true;
     };
-
     xfce4 = lib.mkIf (!xfce4Exists) {
       source = ./xfce4;
       target = "xfce4";
       recursive = true;
       enable = true;
+      force = true;
     };
-
     copyq = lib.mkIf (!copyqExists) {
       source = ./copyq;
       target = "copyq";
       recursive = true;
       enable = true;
+      force = true;
     };
-
     fish = lib.mkIf (!fishExists) {
       source = ./fish;
       target = "fish";
       recursive = true;
       enable = true;
+      force = true;
     };
   };
   # xdg.configFile.nvim = {
@@ -166,10 +167,20 @@ in
   #   ln -sfT $HOME/nixos-config/desktop/home/xfce-perchannel-xml $HOME/.config/xfce4/xfconf/xfce-perchannel-xml
   # '';
 
+  # home.activation.xfce4 = lib.mkAfter ''
+  #   wget -O ${config.xdg.configHome}/anime-nix.png  https://preview.redd.it/anime-nix-wallpaper-i-created-v0-0f6oxa9y9jlb1.png?width=1080&crop=smart&auto=webp&s=f9691c21e255b83cabbe080de6df646b54779acb
+  # '';
+
+  xdg.configFile."anime-nix.png" = {
+    source = ./anime-nix.png;
+    target = "anime-nix.png";
+    enable = true;
+  };
+
   xfconf.settings = {
     xfce4-desktop = {
       "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
-        "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.gnomeFilePath}";
+        "${config.xdg.configHome}/anime-nix.png";
     };
   };
 
