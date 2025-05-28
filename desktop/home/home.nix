@@ -1,5 +1,12 @@
 { lib, config, pkgs, ... }:
 
+let
+  nvimExists = builtins.pathExists "${config.xdg.configHome}/nvim";
+  mozcExists = builtins.pathExists "${config.xdg.configHome}/mozc";
+  xfce4Exists = builtins.pathExists "${config.xdg.configHome}/xfce4";
+  copyqExists = builtins.pathExists "${config.xdg.configHome}/copyq";
+  fishExists = builtins.pathExists "${config.xdg.configHome}/fish";
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -79,40 +86,49 @@
 
   services.copyq.enable = true;
 
-  xdg.configFile.nvim = {
-    source = ./nvim;
-    target = "nvim";
-    recursive = true;
-    enable = true;
-    onChange = ''
-      if [ -d "${config.xdg.configHome}/nvim" ]; then
-        echo "Skipping nvim configuration: directory already exists"
-      else
-        echo "No existing nvim configuration found, but doing nothing as requested"
-      fi
-    '';
-  };
 
+  xdg.configFile = {
+    nvim = lib.mkIf (!nvimExists) {
+      source = ./nvim;
+      target = "nvim";
+      recursive = true;
+      enable = true;
+    };
+
+    mozc = lib.mkIf (!mozcExists) {
+      source = ./mozc;
+      target = "mozc";
+      recursive = true;
+      enable = true;
+    };
+
+    xfce4 = lib.mkIf (!xfce4Exists) {
+      source = ./xfce4;
+      target = "xfce4";
+      recursive = true;
+      enable = true;
+    };
+
+    copyq = lib.mkIf (!copyqExists) {
+      source = ./copyq;
+      target = "copyq";
+      recursive = true;
+      enable = true;
+    };
+
+    fish = lib.mkIf (!fishExists) {
+      source = ./fish;
+      target = "fish";
+      recursive = true;
+      enable = true;
+    };
+  };
   # xdg.configFile.nvim = {
   #   source = ./nvim;
   #   target = "nvim";
   #   recursive = true;
   #   enable = true;
   # };
-  #
-  xdg.configFile.xfce4 = {
-    source = ./xfce4;
-    target = "xfce4";
-    recursive = true;
-    enable = true;
-    onChange = ''
-      if [ -d "${config.xdg.configHome}/xfce4" ]; then
-        echo "Skipping nvim configuration: directory already exists"
-      else
-        echo "No existing nvim configuration found, but doing nothing as requested"
-      fi
-    '';
-  };
   # xdg.configFile.xfce4 = {
   #   source = ./xfce4;
   #   target = "xfce4";
@@ -120,60 +136,20 @@
   #   enable = true;
   # };
   #
-  xdg.configFile.fish = {
-    source = ./fish;
-    target = "fish";
-    recursive = true;
-    enable = true;
-    onChange = ''
-      if [ -d "${config.xdg.configHome}/fish" ]; then
-        echo "Skipping nvim configuration: directory already exists"
-      else
-        echo "No existing nvim configuration found, but doing nothing as requested"
-      fi
-    '';
-  };
   # xdg.configFile.fish = {
   #   source = ./fish;
   #   target = "fish";
   #   recursive = true;
   #   enable = true;
   # };
-
-  xdg.configFile.copyq = {
-    source = ./copyq;
-    target = "copyq";
-    recursive = true;
-    enable = true;
-    onChange = ''
-      if [ -d "${config.xdg.configHome}/copyq" ]; then
-        echo "Skipping nvim configuration: directory already exists"
-      else
-        echo "No existing nvim configuration found, but doing nothing as requested"
-      fi
-    '';
-  };
+  #
   # xdg.configFile.copyq = {
   #   source = ./copyq;
   #   target = "copyq";
   #   recursive = true;
   #   enable = true;
   # };
-
-  xdg.configFile.mozc = {
-    source = ./mozc;
-    target = "mozc";
-    recursive = true;
-    enable = true;
-    onChange = ''
-      if [ -d "${config.xdg.configHome}/mozc" ]; then
-        echo "Skipping nvim configuration: directory already exists"
-      else
-        echo "No existing nvim configuration found, but doing nothing as requested"
-      fi
-    '';
-  };
-
+  #
   # xdg.configFile.mozc = {
   #   source = ./mozc;
   #   target = "mozc";
