@@ -151,6 +151,17 @@ in
   };
 
   xdg.desktopEntries = {
+    xfce4-terminal = {
+      name = "xfce4-terminal";
+      genericName = "terminal";
+      exec = "xfce4-terminal %f";
+      terminal = true;
+      type = "Application";
+      icon="xfce4-terminal";
+    };
+  };
+
+  xdg.desktopEntries = {
     nvim = {
       name = "neovim";
       genericName = "Text Editor";
@@ -164,6 +175,23 @@ in
       icon="nvim";
       categories = [ "Utility" "TextEditor" ];
       mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
+    };
+  };
+
+  xdg.desktopEntries = {
+    floorp = {
+      name = "floorp";
+      genericName = "WebBrowser";
+      comment = "floorp";
+      exec = "floorp %u";
+      icon = "floorp";
+      noDisplay = true;
+      type = "Application"; # ここを修正
+      categories = [ "WebBrowser" ];
+      settings = {
+        X-XFCE-Commands = "floorp";
+        X-XFCE-Category = "WebBrowser";
+      };
     };
   };
 
