@@ -1,0 +1,22 @@
+[
+    {
+        "key": "settings_launch_on_login",
+        "value": 1
+    },
+    {
+        "key": "settings_load_last_profile",
+        "value": 1
+    },
+    {
+        "key": "settings_minimize_to_tray",
+        "value": 1
+    },
+    {
+        "key": "settings_show_app_indicator",
+        "value": 1
+    },
+    {
+        "key": "settings_app_indicator_show_gpu_temp",
+        "value": 1
+    }
+]

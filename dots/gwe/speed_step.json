@@ -1,0 +1,16 @@
+[
+    {
+        "duty": 0,
+        "id": 1,
+        "profile_id": 4,
+        "temperature": 35,
+        "timestamp": "2025-05-29 02:03:13"
+    },
+    {
+        "duty": 100,
+        "id": 2,
+        "profile_id": 4,
+        "temperature": 80,
+        "timestamp": "2025-05-29 02:03:17"
+    }
+]

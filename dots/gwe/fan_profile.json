@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "Auto (VBIOS controlled)",
+        "read_only": 1,
+        "timestamp": "2025-05-29 01:50:22",
+        "type": "auto",
+        "vbios_silent_mode": 0
+    },
+    {
+        "id": 4,
+        "name": "New profile",
+        "read_only": 0,
+        "timestamp": "2025-05-29 02:01:44",
+        "type": "fan_curve",
+        "vbios_silent_mode": 0
+    }
+]

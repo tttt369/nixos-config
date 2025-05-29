@@ -1,0 +1,11 @@
+[
+    {
+        "gpu": 0,
+        "id": 1,
+        "memory": 0,
+        "name": "Default",
+        "read_only": 1,
+        "timestamp": "2025-05-29 01:50:22",
+        "type": "default"
+    }
+]
