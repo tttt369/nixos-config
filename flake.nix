@@ -38,7 +38,9 @@
     {
       nixosConfigurations = {
         desktop = mkSystem "asdf" ./desktop/configuration.nix ./desktop/home.nix;
+        min_desk = mkSystem "asdf" ./desktop/min/configuration.nix ./desktop/min/home.nix;
         laptop = mkSystem "asdf" ./laptop/configuration.nix ./laptop/home.nix;
+        min_lap = mkSystem "asdf" ./laptop/min/configuration.nix ./laptop/min/home.nix;
       };
     };
 }

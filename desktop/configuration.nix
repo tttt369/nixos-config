@@ -323,7 +323,6 @@
 
   programs.gamemode.enable = true;
   powerManagement.cpuFreqGovernor = "performance";
-  networking.firewall.checkReversePath = false;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
 
