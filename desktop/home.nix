@@ -6,6 +6,7 @@ let
   xfce4Exists = builtins.pathExists "${config.xdg.configHome}/xfce4";
   copyqExists = builtins.pathExists "${config.xdg.configHome}/copyq";
   fishExists = builtins.pathExists "${config.xdg.configHome}/fish";
+  gweExists = builtins.pathExists "${config.xdg.configHome}/gwe";
 in
 {
   # xdg.configFile.nvim = {
@@ -99,36 +100,43 @@ in
 
   xdg.configFile = {
     nvim = lib.mkIf (!nvimExists) {
-      source = ./dots/nvim;
+      source = ../dots/nvim;
       target = "nvim";
       recursive = true;
       enable = true;
       force = true;
     };
     mozc = lib.mkIf (!mozcExists) {
-      source = ./dots/mozc;
+      source = ../dots/mozc;
       target = "mozc";
       recursive = true;
       enable = true;
       force = true;
     };
     xfce4 = lib.mkIf (!xfce4Exists) {
-      source = ./dots/xfce4;
+      source = ../dots/xfce4;
       target = "xfce4";
       recursive = true;
       enable = true;
       force = true;
     };
     copyq = lib.mkIf (!copyqExists) {
-      source = ./dots/copyq;
+      source = ../dots/copyq;
       target = "copyq";
       recursive = true;
       enable = true;
       force = true;
     };
     fish = lib.mkIf (!fishExists) {
-      source = ./dots/fish;
+      source = ../dots/fish;
       target = "fish";
+      recursive = true;
+      enable = true;
+      force = true;
+    };
+    gwe = lib.mkIf (!gweExists) {
+      source = ../dots/gwe;
+      target = "gwe";
       recursive = true;
       enable = true;
       force = true;
