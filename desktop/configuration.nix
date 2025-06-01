@@ -72,6 +72,22 @@
   services.pipewire = {
     enable = true;
     pulse.enable = true;
+    extraConfig.pipewire."20-link-null-sink" = {
+      "context.objects" = [
+        {
+          factory = "adapter";
+          args = {
+            "factory.name" = "support.null-audio-sink";
+            "node.name" = "my-sink";
+            "media.class" = "Audio/Sink";
+            "object.linger" = true;
+            "audio.position" = "FL,FR";
+            "monitor.channel-volumes" = true;
+            "monitor.passthrough" = true;
+          };
+        }
+      ];
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -131,6 +147,20 @@
     protonup
     go_1_23
     openvpn
+    chromium
+    file-roller
+    gradle
+    heroic
+    qpwgraph
+    scrcpy
+    sqlitebrowser
+    clang
+    cmake
+    ninja
+    pkg-config
+    vscodium
+    flutter
+    androidenv.androidPkgs.tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -240,16 +270,7 @@
 
   networking.firewall.checkReversePath = false;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-original"
-    "steam-unwrapped"
-    "steam-run"
-    "nvidia-x11"
-    "nvidia-settings"
-    "nvidia-persistenced"
-    "android-studio-stable"
-    ];
+  nixpkgs.config.allowUnfree = true;
 
   programs.steam = {
     enable = true;
@@ -317,6 +338,8 @@
   };
 
   environment.sessionVariables = {
+    ANDROID_SDK_ROOT = "${pkgs.androidenv.androidPkgs.tools}/libexec/android-sdk";
+    CHROME_EXECUTABLE = "chromium";
     STEAM_EXTRA_COMPAT_TOOLS_PATHS =
       "\${HOME}/.steam/root/compatibilitytools.d";
   };
@@ -354,4 +377,16 @@
   users.groups.libvirtd.members = ["asdf"];
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
+
+
+  system.userActivationScripts = {
+    stdio = {
+      text = ''
+        rm -f ~/.android/Sdk/platform-tools/adb
+        ln -s /run/current-system/sw/bin/adb ~/Android/Sdk/platform-tools/adb
+      '';
+      deps = [
+      ];
+    };
+  };
 }

@@ -1,13 +1,12 @@
 { lib, config, pkgs, ... }:
-
-let
-  nvimExists = builtins.pathExists "${config.xdg.configHome}/nvim";
-  mozcExists = builtins.pathExists "${config.xdg.configHome}/mozc";
-  xfce4Exists = builtins.pathExists "${config.xdg.configHome}/xfce4";
-  copyqExists = builtins.pathExists "${config.xdg.configHome}/copyq";
-  fishExists = builtins.pathExists "${config.xdg.configHome}/fish";
-  gweExists = builtins.pathExists "${config.xdg.configHome}/gwe";
-in
+# let
+#   nvimExists = builtins.pathExists "${config.xdg.configHome}/nvim";
+#   mozcExists = builtins.pathExists "${config.xdg.configHome}/mozc";
+#   xfce4Exists = builtins.pathExists "${config.xdg.configHome}/xfce4";
+#   copyqExists = builtins.pathExists "${config.xdg.configHome}/copyq";
+#   fishExists = builtins.pathExists "${config.xdg.configHome}/fish";
+#   gweExists = builtins.pathExists "${config.xdg.configHome}/gwe";
+# in
 {
   # xdg.configFile.nvim = {
   #   source = ./nvim;
@@ -98,63 +97,72 @@ in
   services.copyq.enable = true;
 
 
-  xdg.configFile = {
-    nvim = lib.mkIf (!nvimExists) {
-      source = ../dots/nvim;
-      target = "nvim";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-    mozc = lib.mkIf (!mozcExists) {
-      source = ../dots/mozc;
-      target = "mozc";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-    xfce4 = lib.mkIf (!xfce4Exists) {
-      source = ../dots/xfce4;
-      target = "xfce4";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-    copyq = lib.mkIf (!copyqExists) {
-      source = ../dots/copyq;
-      target = "copyq";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-    fish = lib.mkIf (!fishExists) {
-      source = ../dots/fish;
-      target = "fish";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-    gwe = lib.mkIf (!gweExists) {
-      source = ../dots/gwe;
-      target = "gwe";
-      recursive = true;
-      enable = true;
-      force = true;
-    };
-  };
+  # home.activation.copyq = lib.mkAfter ''
+  #   XFCE4_SRC="$(readlink -f ./dots/copyq)"
+  #   if [ ! -L "$HOME/.config/copyq" ]; then
+  #     rm -rf "$HOME/.config/copyq"
+  #     ln -sfT "$XFCE4_SRC" "$HOME/.config/copyq"
+  #   fi
+  # '';
 
-  xfconf.settings = {
-    xfce4-desktop = {
-      "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
-        "${config.xdg.configHome}/xfce4/xfconf/xfce-perchannel-xml/0f6oxa9y9jlb1.png";
-    };
-  };
+
+  # xdg.configFile = {
+    # nvim = lib.mkIf (!nvimExists) {
+    #   source = ../dots/nvim;
+    #   target = "nvim";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+    # mozc = lib.mkIf (!mozcExists) {
+    #   source = ../dots/mozc;
+    #   target = "mozc";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+    # xfce4 = lib.mkIf (!xfce4Exists) {
+    #   source = ../dots/xfce4;
+    #   target = "xfce4";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+    # copyq = lib.mkIf (!copyqExists) {
+    #   source = ../dots/copyq;
+    #   target = "copyq";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+    # fish = lib.mkIf (!fishExists) {
+    #   source = ../dots/fish;
+    #   target = "fish";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+    # gwe = lib.mkIf (!gweExists) {
+    #   source = ../dots/gwe;
+    #   target = "gwe";
+    #   recursive = true;
+    #   enable = true;
+    #   force = true;
+    # };
+  # };
+
+  # xfconf.settings = {
+  #   xfce4-desktop = {
+  #     "backdrop/screen0/monitorHDMI-1/workspace0/last-image" =
+  #       "${config.xdg.configHome}/xfce4/xfconf/xfce-perchannel-xml/0f6oxa9y9jlb1.png";
+  #   };
+  # };
 
   xdg.desktopEntries = {
     xfce4-terminal = {
       name = "xfce4-terminal";
       genericName = "terminal";
-      exec = "xfce4-terminal %f";
+      exec = "xfce4-terminal --working-directory=%U";
       terminal = true;
       type = "Application";
       icon="xfce4-terminal";
@@ -175,23 +183,6 @@ in
       icon="nvim";
       categories = [ "Utility" "TextEditor" ];
       mimeType=["text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
-    };
-  };
-
-  xdg.desktopEntries = {
-    floorp = {
-      name = "floorp";
-      genericName = "WebBrowser";
-      comment = "floorp";
-      exec = "floorp %u";
-      icon = "floorp";
-      noDisplay = true;
-      type = "Application"; # ここを修正
-      categories = [ "WebBrowser" ];
-      settings = {
-        X-XFCE-Commands = "floorp";
-        X-XFCE-Category = "WebBrowser";
-      };
     };
   };
 
